@@ -1,0 +1,19 @@
+version: v1.0
+
+name: Ruby
+
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: bundle exec rspec
+    task:
+      jobs:
+        - name: Run tests
+          commands:
+            - checkout
+            - sem-version ruby 2.6.6
+            - bundle install --deployment --path vendor/bundle
+            - bundle exec rspec
