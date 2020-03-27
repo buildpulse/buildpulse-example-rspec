@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  buildpulse: workshop64/buildpulse@0.3
+
 jobs:
   build:
     docker:
@@ -7,6 +10,8 @@ jobs:
 
     steps:
       - checkout
+
+      - buildpulse/setup # Set up BuildPulse connection *before* running the test suite
 
       - run:
           name: Install dependencies
@@ -17,3 +22,8 @@ jobs:
       - run:
           name: Run tests
           command: bin/rspec
+
+      - buildpulse/upload:
+          path: spec/reports
+          account-id: 46661156 # Replace this value with your BuildPulse account ID
+          repository-id: 238705816 # Replace this value with your BuildPulse repository ID
