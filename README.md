@@ -9,3 +9,7 @@ If you have an existing RSpec project building on CircleCI, this [diff](https://
 ## GitHub Actions CI Integration
 
 If you have an existing RSpec project building on GitHub Actions CI, this [diff](https://github.com/Workshop64/buildpulse-example-rspec/compare/7d2004e...github-actions) shows how to set up your GitHub Actions workflow to send test results to BuildPulse.
+
+## Semaphore CI Integration
+
+If you have an existing RSpec project building on Semaphore, this [diff](https://github.com/Workshop64/buildpulse-example-rspec/compare/7d2004e...semaphore) shows how to set up your `.semaphore/semaphore.yml` workflow to send test results to BuildPulse.
