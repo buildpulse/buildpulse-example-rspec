@@ -14,6 +14,10 @@ If you have an existing RSpec project building on [GitHub Actions](https://githu
 
 If you have an existing RSpec project building on [Semaphore](https://semaphoreci.com/), this [diff](https://github.com/Workshop64/buildpulse-example-rspec/compare/7d2004e...semaphore) shows how to set up your `.semaphore/semaphore.yml` workflow to send test results to BuildPulse.
 
+## Travis CI Integration
+
+If you have an existing RSpec project building on [Travis CI](https://travis-ci.com/), this [diff](https://github.com/Workshop64/buildpulse-example-rspec/compare/bae0156...travis-ci) shows how to set up your `.travis.yml` to send test results to BuildPulse.
+
 ---
 
 <p>
