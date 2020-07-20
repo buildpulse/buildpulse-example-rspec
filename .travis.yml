@@ -1,0 +1,6 @@
+language: ruby
+
+before_install:
+  - gem install bundler -v2.1.4
+
+script: bin/rspec
