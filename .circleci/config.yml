@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  buildpulse: workshop64/buildpulse@0.3
+  buildpulse: workshop64/buildpulse@0.4
 
 jobs:
   build:
@@ -10,8 +10,6 @@ jobs:
 
     steps:
       - checkout
-
-      - buildpulse/setup # Set up BuildPulse connection *before* running the test suite
 
       - run:
           name: Install dependencies
