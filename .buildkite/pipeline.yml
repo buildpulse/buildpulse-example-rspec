@@ -1,0 +1,6 @@
+steps:
+  - name: ":rspec: Build and test"
+    commands:
+      - gem install bundler -v2.1.4
+      - bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - bin/rspec
