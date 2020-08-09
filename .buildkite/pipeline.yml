@@ -1,6 +1,50 @@
 steps:
   - name: ":rspec: Build and test"
+    key: "tests"
+    artifact_paths: "spec/reports/**/*"
     commands:
       - gem install bundler -v2.1.4
       - bundle install --jobs=4 --retry=3 --path vendor/bundle
       - bin/rspec
+
+  - name: ":sleuth_or_spy: Upload test results to BuildPulse for flaky test detection"
+
+    # Wait for the tests to finish running before executing this step.
+    depends_on: "tests"
+
+    # Run this step even when the tests fail.
+    allow_dependency_failure: true
+
+    # If this step fails, don't let it cause the whole build to fail. #DoNoHarm
+    soft_fail: true
+
+    commands:
+      # Create a directory to hold the XML test reports.
+      - mkdir -p /tmp/buildpulse
+
+      # Fetch the XML test reports generated during the test run.
+      #
+      # Note that the root artifact path (in this case, "spec/reports") needs to
+      # match the root of the artifact_paths specified in the "tests" step
+      # above.
+      #
+      # Also note that the destination path (in this case, "/tmp/buildpulse")
+      # needs to match the path of the directory that we created in the previous
+      # command.
+      - buildkite-agent artifact download spec/reports/* /tmp/buildpulse
+
+      # Download the BuildPulse test reporter and make it executable.
+      #
+      # For Linux, use https://github.com/buildpulse/test-reporter/releases/latest/download/test-reporter-linux-amd64
+      # For macOS, use https://github.com/buildpulse/test-reporter/releases/latest/download/test-reporter-darwin-amd64
+      - curl -fsSL https://github.com/buildpulse/test-reporter/releases/latest/download/test-reporter-darwin-amd64 > ./buildpulse-test-reporter
+      - chmod +x ./buildpulse-test-reporter
+
+      # Send test results to BuildPulse.
+      #
+      # Note that you'll need to replace the IDs below with your BuildPulse
+      # account ID and repository ID.
+      #
+      # Also note that the path (in this case, "/tmp/buildpulse") needs to match
+      # the path of the directory that we used in the commands above.
+      - ./buildpulse-test-reporter submit /tmp/buildpulse --account-id 68192324 --repository-id 238705816
