@@ -1,8 +1,5 @@
 version: 2.1
 
-orbs:
-  buildpulse: workshop64/buildpulse@0.4
-
 jobs:
   build:
     docker:
@@ -10,6 +7,15 @@ jobs:
 
     steps:
       - checkout
+
+      - run:
+          name: Capture git tree SHA before deleting repository
+          command: |
+            echo "export TREE_SHA1=$(git log -1 --pretty=format:'%T')" >> $BASH_ENV
+
+      - run:
+          name: Delete local git repository
+          command: rm -rf .git
 
       - run:
           name: Install dependencies
@@ -21,7 +27,10 @@ jobs:
           name: Run tests
           command: bin/rspec
 
-      - buildpulse/upload:
-          path: spec/reports
-          account-id: 68192324 # Replace this value with your BuildPulse account ID
-          repository-id: 238705816 # Replace this value with your BuildPulse repository ID
+      - run:
+          when: always # Run this step even when the tests fail
+          name: Send test results to BuildPulse
+          command: |
+            curl -fsSL https://github.com/buildpulse/test-reporter/releases/latest/download/test-reporter-linux-amd64 > ./buildpulse-test-reporter
+            chmod +x ./buildpulse-test-reporter
+            ./buildpulse-test-reporter submit spec/reports --account-id 68192324 --repository-id 238705816 --tree $TREE_SHA1 # Replace IDs with your BuildPulse account ID and repository ID
