@@ -10,10 +10,8 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Set up Ruby 2.6
-      uses: actions/setup-ruby@v1
-      with:
-        ruby-version: '2.6'
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
 
     - name: Build and test with RSpec
       run: |
