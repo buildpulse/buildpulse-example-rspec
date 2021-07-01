@@ -14,7 +14,7 @@ blocks:
         - name: Run tests
           commands:
             - checkout
-            - sem-version ruby 2.6.6
+            - sem-version ruby 2.7.3
             - bundle install --deployment --path vendor/bundle
             - bundle exec rspec
       epilogue:
