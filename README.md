@@ -1,4 +1,6 @@
-# BuildPulse Example Project: Ruby + RSpec
+<a href="https://buildpulse.io"><img src=".github/banner.svg" alt="buildpulse-example-rspec, by BuildPulse" width="100%"></a>
+
+<a href="https://buildpulse.io/products/flaky-tests?ref=github-badge"><img src=".github/runs-on-buildpulse-compact.svg" alt="Runs on BuildPulse" height="28"></a>
 
 This is an example [RSpec](https://rspec.info/) project demonstrating how to send test results to [BuildPulse](https://buildpulse.io) to help you find and [fix flaky tests](https://buildpulse.io/products/flaky-tests).
 
