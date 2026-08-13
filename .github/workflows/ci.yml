@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: bp-ubuntu-latest-x64-2x
 
     steps:
     - name: Check out code
@@ -18,12 +18,10 @@ jobs:
         gem install bundler
         bundle install --jobs=4 --retry=3
         bin/rspec
-    - name: Upload test results to BuildPulse for flaky test detection
-      if: '!cancelled()' # Run this step even when the tests fail. Skip if the workflow is cancelled.
-      uses: buildpulse/buildpulse-action@main
+    - name: Upload test results to BuildPulse
+      # BuildPulse is most useful when tests FAILED, so run on red builds too.
+      if: always()
+      uses: BuildPulseLLC/test-reporter-action@v3
       with:
-        account: 68192324 # Replace this value with your BuildPulse account ID
-        repository: 238705816 # Replace this value with your BuildPulse repository ID
-        path: spec/reports
-        key: ${{ secrets.BUILDPULSE_ACCESS_KEY_ID }}
-        secret: ${{ secrets.BUILDPULSE_SECRET_ACCESS_KEY }}
+        api-token: ${{ secrets.BUILDPULSE_API_TOKEN }}
+        path: .
